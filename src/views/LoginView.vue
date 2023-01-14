@@ -1,6 +1,6 @@
 <template>
-  <v-sheet class="bg-deep-purple pa-12" rounded>
-    <v-card class="mx-auto px-6 py-8" max-width="344">
+  <v-sheet class="pa-12" rounded>
+    <v-card class="mx-auto px-6 py-8" max-width="400">
       <v-form v-model="form" @submit.prevent="onSubmit">
         <v-text-field
           v-model="email"
@@ -12,6 +12,7 @@
         ></v-text-field>
 
         <v-text-field
+          type="password"
           v-model="password"
           :readonly="loading"
           :rules="[required]"
@@ -20,16 +21,15 @@
           placeholder="Enter your password"
         ></v-text-field>
 
-        <br />
-
         <v-btn
           :disabled="!form"
           :loading="loading"
           block
-          color="success"
+          color="teal-lighten-1"
           size="large"
           type="submit"
           variant="elevated"
+          prepend-icon="fas fa-sign-in-alt"
         >
           Sign In
         </v-btn>
@@ -40,7 +40,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
 import { useFetchData } from "../hooks/useFetchData";
+import { useAuth } from "../hooks/useAuth";
 
 export default defineComponent({
   name: "LoginForm",
@@ -49,6 +51,9 @@ export default defineComponent({
     const email = ref(null);
     const password = ref(null);
     const loading = ref(false);
+
+    const router = useRouter();
+    const { setToken } = useAuth();
 
     async function onSubmit() {
       if (!form.value) return;
@@ -68,7 +73,8 @@ export default defineComponent({
       );
 
       if (!hasError.value) {
-        console.log(data.value.message);
+        setToken((data.value as { token: string }).token);
+        router.push("/home");
       } else {
         console.log(errorMessage.value);
       }
