@@ -1,6 +1,6 @@
 <template>
   <v-app theme="light">
-    <v-layout>
+    <v-layout class="bg-grey-lighten-3">
       <v-app-bar>
         <v-app-bar-title>
           <v-btn

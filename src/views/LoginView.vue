@@ -75,7 +75,7 @@ export default defineComponent({
       if (!hasError.value) {
         // use a type assertion to tell the compiler that the variable is of a certain type
         setToken((data.value as { token: string }).token);
-        router.push("/home");
+        router.push("/create-post");
       } else {
         console.log(errorMessage.value);
       }
