@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
 import HomeView from "../views/HomeView.vue";
 
 const router = createRouter({
@@ -26,10 +27,12 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  const store = useAuthStore();
   const token = localStorage.getItem("token");
   if (to.path !== "/login" && !token) {
     next("/login");
   } else {
+    store.setToken(token);
     next();
   }
 });

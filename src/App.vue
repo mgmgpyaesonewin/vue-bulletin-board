@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
-</script>
-
 <template>
   <v-app theme="light">
     <v-layout>
@@ -19,7 +15,7 @@ import { RouterLink, RouterView } from "vue-router";
         </v-app-bar-title>
 
         <template v-slot:append>
-          <RouterLink to="/login">
+          <RouterLink to="/login" v-if="!store.isLoggedIn">
             <v-btn color="black" flat value="Login">Login</v-btn>
           </RouterLink>
         </template>
@@ -32,3 +28,16 @@ import { RouterLink, RouterView } from "vue-router";
     </v-layout>
   </v-app>
 </template>
+
+<script lang="ts">
+import { RouterLink, RouterView } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+
+export default {
+  setup() {
+    const store = useAuthStore();
+
+    return { store, RouterLink, RouterView };
+  },
+};
+</script>
