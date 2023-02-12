@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
-import HomeView from "../views/HomeView.vue";
+import CreatePostView from "../views/Post/CreatePostView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,12 +8,12 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: HomeView,
+      component: CreatePostView,
     },
     {
       path: "/home",
       name: "home",
-      component: HomeView,
+      component: CreatePostView,
     },
     {
       path: "/login",
@@ -22,6 +22,14 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import("../views/LoginView.vue"),
+    },
+    {
+      path: "/sign-up",
+      name: "signup",
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import("../views/Auth/SignUpView.vue"),
     },
     {
       path: "/create-post",
@@ -37,7 +45,9 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const store = useAuthStore();
   const token = localStorage.getItem("token");
-  if (to.path !== "/login" && !token) {
+  if (to.path === "/sign-up") {
+    next();
+  } else if (to.path !== "/login" && !token) {
     next("/login");
   } else {
     store.setToken(token);

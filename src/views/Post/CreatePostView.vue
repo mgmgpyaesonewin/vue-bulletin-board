@@ -10,7 +10,11 @@
         </v-col>
 
         <v-col cols="9">
-          <v-text-field label="Title" suffix="0/255"></v-text-field>
+          <v-text-field
+            label="Title"
+            v-model="title"
+            counter="255"
+          ></v-text-field>
         </v-col>
       </v-row>
 
@@ -51,3 +55,10 @@
     </v-card-actions>
   </v-card>
 </template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+import type { Ref } from "vue";
+
+const title: Ref<string> = ref("");
+</script>
