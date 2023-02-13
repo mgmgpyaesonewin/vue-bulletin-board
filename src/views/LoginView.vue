@@ -21,6 +21,9 @@
         label="Password"
         placeholder="Enter your password"
       ></v-text-field>
+      <error-message cssClass="mb-2" errorType="error" v-show="hasError">
+        {{ errorMessage }}
+      </error-message>
 
       <v-btn
         :disabled="!form"
@@ -40,16 +43,22 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
-import { useFetchData } from "../hooks/useFetchData";
 import { useAuth } from "../hooks/useAuth";
+import { useSignIn } from "@/hooks/useSignIn";
+import ErrorMessage from "@/atoms/ErrorMessage.vue";
 
 export default defineComponent({
   name: "LoginForm",
+  components: {
+    ErrorMessage,
+  },
   setup() {
     const form = ref(false);
-    const email = ref(null);
+    const email = ref<string | null>(null);
     const password = ref(null);
     const loading = ref(false);
+    const hasError = ref(false);
+    const errorMessage = ref("");
 
     const router = useRouter();
     const { setToken } = useAuth();
@@ -57,26 +66,44 @@ export default defineComponent({
     async function onSubmit() {
       if (!form.value) return;
 
-      const { data, hasError, errorMessage } = await useFetchData(
-        "http://localhost:8082/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }
-      );
+      if (!!email.value && !!password.value) {
+        try {
+          // Submitting Form Request
+          loading.value = true;
 
-      if (!hasError.value) {
-        // use a type assertion to tell the compiler that the variable is of a certain type
-        setToken((data.value as { token: string }).token);
-        router.push("/create-post");
-      } else {
-        console.log(errorMessage.value);
+          // Signin User to supabase
+          const { user: authUser } = await useSignIn(
+            email.value,
+            password.value
+          );
+          console.log({
+            user: authUser,
+            session: authUser.value?.data.session,
+            access_token: authUser.value?.data.session?.access_token,
+          });
+
+          if (!authUser) {
+            throw new Error("Failed to sign in. Please try again.");
+          }
+
+          // Set session token
+          const accessToken = authUser.value?.data.session?.access_token;
+          if (!accessToken) {
+            throw new Error("Failed to generate token. Please try again.");
+          }
+
+          // Set token and change route
+          setToken(accessToken);
+          router.push("/create-post");
+        } catch (e) {
+          console.error(e);
+          if (e instanceof Error) {
+            hasError.value = true;
+            errorMessage.value = e.message.toString();
+          }
+        } finally {
+          loading.value = false;
+        }
       }
     }
 
@@ -91,6 +118,8 @@ export default defineComponent({
       loading,
       onSubmit,
       required,
+      hasError,
+      errorMessage,
     };
   },
 });
