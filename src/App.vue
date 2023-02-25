@@ -3,12 +3,7 @@
     <v-layout class="bg-grey-lighten-3">
       <v-app-bar>
         <v-app-bar-title>
-          <v-btn
-            color="teal-lighten-1"
-            variant="elevated"
-            icon
-            density="comfortable"
-          >
+          <v-btn color="teal-lighten-1" variant="elevated" icon density="comfortable">
             <v-icon icon="fas fa-solid fa-b"></v-icon>
           </v-btn>
           Bulletin Board
@@ -30,14 +25,14 @@
 </template>
 
 <script lang="ts">
-import { RouterLink, RouterView } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
+import { RouterLink, RouterView } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 export default {
   setup() {
-    const store = useAuthStore();
+    const store = useAuthStore()
 
-    return { store, RouterLink, RouterView };
-  },
-};
+    return { store, RouterLink, RouterView }
+  }
+}
 </script>
