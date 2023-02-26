@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed } from 'vue';
 
 export default {
   props: {
@@ -19,22 +19,22 @@ export default {
     }
   },
   setup(props) {
-    const showError = ref(false)
+    const showError = ref(false);
 
     const setError = () => {
-      showError.value = true
-    }
+      showError.value = true;
+    };
 
     const clearError = () => {
-      showError.value = false
-    }
+      showError.value = false;
+    };
 
     return {
       showError: computed(() => showError.value),
       props,
       setError,
       clearError
-    }
+    };
   }
-}
+};
 </script>

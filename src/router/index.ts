@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
-import CreatePostView from '../views/Post/CreatePostView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import CreatePostView from '../views/Post/CreatePostView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,19 +40,19 @@ const router = createRouter({
       component: () => import('../views/Post/CreatePostView.vue')
     }
   ]
-})
+});
 
 router.beforeEach((to, from, next) => {
-  const store = useAuthStore()
-  const token = localStorage.getItem('token')
+  const store = useAuthStore();
+  const token = localStorage.getItem('token');
   if (to.path === '/sign-up') {
-    next()
+    next();
   } else if (to.path !== '/login' && !token) {
-    next('/login')
+    next('/login');
   } else {
-    store.setToken(token)
-    next()
+    store.setToken(token);
+    next();
   }
-})
+});
 
-export default router
+export default router;

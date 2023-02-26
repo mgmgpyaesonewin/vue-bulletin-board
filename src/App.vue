@@ -25,14 +25,14 @@
 </template>
 
 <script lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { RouterLink, RouterView } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
 
 export default {
   setup() {
-    const store = useAuthStore()
+    const store = useAuthStore();
 
-    return { store, RouterLink, RouterView }
+    return { store, RouterLink, RouterView };
   }
-}
+};
 </script>
