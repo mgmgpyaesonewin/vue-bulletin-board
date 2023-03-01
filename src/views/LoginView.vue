@@ -10,18 +10,18 @@
         :rules="[required]"
         clearable
         label="Email"
-      ></v-text-field>
+      />
 
       <v-text-field
-        type="password"
         v-model="password"
+        type="password"
         :readonly="loading"
         :rules="[required]"
         clearable
         label="Password"
         placeholder="Enter your password"
-      ></v-text-field>
-      <error-message css-class="mb-2" errorType="error" v-show="hasError">
+      />
+      <error-message v-show="hasError" css-class="mb-2" error-type="error">
         {{ errorMessage }}
       </error-message>
 
@@ -50,7 +50,7 @@ import ErrorMessage from '@/atoms/ErrorMessage.vue';
 export default defineComponent({
   name: 'LoginForm',
   components: {
-    ErrorMessage
+    ErrorMessage,
   },
   setup() {
     const form = ref(false);
@@ -63,6 +63,9 @@ export default defineComponent({
     const router = useRouter();
     const { setToken } = useAuth();
 
+    /**
+     *
+     */
     async function onSubmit() {
       if (!form.value) return;
 
@@ -72,11 +75,14 @@ export default defineComponent({
           loading.value = true;
 
           // Signin User to supabase
-          const { user: authUser } = await useSignIn(email.value, password.value);
+          const { user: authUser } = await useSignIn(
+            email.value,
+            password.value
+          );
           console.log({
             user: authUser,
             session: authUser.value?.data.session,
-            access_token: authUser.value?.data.session?.access_token
+            access_token: authUser.value?.data.session?.access_token,
           });
 
           if (!authUser) {
@@ -104,6 +110,9 @@ export default defineComponent({
       }
     }
 
+    /**
+     *
+     */
     function required(v: any) {
       return !!v || 'Field is required';
     }
@@ -116,8 +125,8 @@ export default defineComponent({
       onSubmit,
       required,
       hasError,
-      errorMessage
+      errorMessage,
     };
-  }
+  },
 });
 </script>

@@ -5,7 +5,12 @@
     </v-card-title>
     <v-form v-model="valid" lazy-validation @submit.prevent="onSubmit">
       <v-text-field label="Name" v-model="name" :rules="nameRules" required />
-      <v-text-field label="Email" v-model="email" :rules="emailRules" required />
+      <v-text-field
+        label="Email"
+        v-model="email"
+        :rules="emailRules"
+        required
+      />
       <v-text-field
         label="Password"
         v-model="password"
@@ -13,7 +18,12 @@
         required
         type="password"
       />
-      <v-text-field label="Phone Number" v-model="phoneNumber" :rules="phoneNumberRules" required />
+      <v-text-field
+        label="Phone Number"
+        v-model="phoneNumber"
+        :rules="phoneNumberRules"
+        required
+      />
       <v-text-field
         label="Date of Birth"
         v-model="dateOfBirth"
@@ -25,7 +35,9 @@
       <error-message cssClass="mb-2" errorType="error" v-show="formError">
         Sorry, there was an error creating your account. Please try again later.
       </error-message>
-      <v-btn @click="onSubmit" block variant="flat" color="primary"> Sign Up </v-btn>
+      <v-btn @click="onSubmit" block variant="flat" color="primary">
+        Sign Up
+      </v-btn>
     </v-form>
   </v-card>
 </template>
@@ -50,16 +62,20 @@ export default defineComponent({
     const nameRules = [(v: string) => !!v || 'Name is required'];
     const emailRules = [
       (v: string) => !!v || 'Email is required',
-      (v: string) => /.+@.+\..+/.test(v) || 'Email must be valid'
+      (v: string) => /.+@.+\..+/.test(v) || 'Email must be valid',
     ];
     const passwordRules = [
       (v: string) => !v && 'Password is required',
       (v: string) =>
-        !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v) &&
-        'Password too weak, please use a mix of uppercase, lowercase, numbers and symbols.'
+        !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+          v
+        ) &&
+        'Password too weak, please use a mix of uppercase, lowercase, numbers and symbols.',
     ];
     const phoneNumberRules = [(v: string) => !!v || 'Phone number is required'];
-    const dateOfBirthRules = [(v: string) => !!v || 'Date of birth is required'];
+    const dateOfBirthRules = [
+      (v: string) => !!v || 'Date of birth is required',
+    ];
     const onSubmit = async () => {
       // your code to submit the form
       const signUpOptions = {
@@ -70,11 +86,13 @@ export default defineComponent({
           data: {
             name: name.value,
             phoneNumber: phoneNumber.value,
-            dateOfBirth: dateOfBirth.value
-          }
-        }
+            dateOfBirth: dateOfBirth.value,
+          },
+        },
       };
-      const { data: authData, error: authError } = await supabase.auth.signUp(signUpOptions);
+      const { data: authData, error: authError } = await supabase.auth.signUp(
+        signUpOptions
+      );
       if (!authError && authData?.user) {
         // User is successfully created in supbase
         console.log('User stored in auth successfully');
@@ -88,7 +106,7 @@ export default defineComponent({
           email: email.value,
           password: hashedPassword,
           phone: `+95${phoneNumber.value}`,
-          dateOfBirth: dateOfBirth.value
+          dateOfBirth: dateOfBirth.value,
         };
         try {
           const { data: insertData, error: insertError } = await supabase
@@ -101,7 +119,8 @@ export default defineComponent({
           if (insertData?.length !== 0) {
             console.log({
               user: insertData,
-              message: 'User is successfully stored in the database with information'
+              message:
+                'User is successfully stored in the database with information',
             });
           }
         } catch (insertError) {
@@ -127,8 +146,8 @@ export default defineComponent({
       phoneNumberRules,
       dateOfBirthRules,
       onSubmit,
-      formError
+      formError,
     };
-  }
+  },
 });
 </script>

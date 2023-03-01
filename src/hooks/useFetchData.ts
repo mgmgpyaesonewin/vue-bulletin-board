@@ -7,12 +7,15 @@ interface State<T> {
   errorMessage: string;
 }
 
-export const useFetchData = async <T>(url: string, options?: Record<string, unknown>) => {
+export const useFetchData = async <T>(
+  url: string,
+  options?: Record<string, unknown>
+) => {
   const state = reactive<State<T>>({
     isLoading: true,
     hasError: false,
     errorMessage: '',
-    data: null
+    data: null,
   });
 
   const fetchData = async () => {
@@ -38,6 +41,6 @@ export const useFetchData = async <T>(url: string, options?: Record<string, unkn
   await fetchData();
 
   return {
-    ...toRefs(state)
+    ...toRefs(state),
   };
 };

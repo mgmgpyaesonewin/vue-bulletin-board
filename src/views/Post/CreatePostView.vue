@@ -10,13 +10,17 @@
         </v-col>
 
         <v-col cols="9">
-          <v-text-field label="Title" v-model="title" counter="255"></v-text-field>
+          <v-text-field
+            label="Title"
+            v-model="title"
+            counter="255"
+          ></v-text-field>
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="3">
-          <v-list-subheader> Write your post description here </v-list-subheader>
+          <v-list-subheader>Write your post description here</v-list-subheader>
         </v-col>
 
         <v-col cols="9">
@@ -36,7 +40,12 @@
           >
             Confirm
           </v-btn>
-          <v-btn prepend-icon="fa-solid fa-xmark" class="px-6" variant="tonal" title="Cancel">
+          <v-btn
+            prepend-icon="fa-solid fa-xmark"
+            class="px-6"
+            variant="tonal"
+            title="Cancel"
+          >
             Clear
           </v-btn>
         </v-col>

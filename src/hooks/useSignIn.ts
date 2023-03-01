@@ -8,7 +8,7 @@ export const useSignIn = async (email: string, password: string) => {
   try {
     const response = await supabase.auth.signInWithPassword({
       email,
-      password
+      password,
     });
     data.value = response;
 
@@ -17,7 +17,7 @@ export const useSignIn = async (email: string, password: string) => {
     }
 
     return {
-      user: data
+      user: data,
     };
   } catch (e) {
     error.value = e;

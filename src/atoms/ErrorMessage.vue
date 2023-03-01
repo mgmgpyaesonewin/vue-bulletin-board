@@ -1,5 +1,10 @@
 <template>
-  <v-alert :value="showError" :type="props.errorType" dismissible :class="cssClass">
+  <v-alert
+    :value="showError"
+    :type="props.errorType"
+    dismissible
+    :class="cssClass"
+  >
     <slot></slot>
   </v-alert>
 </template>
@@ -10,13 +15,18 @@ import { ref, computed } from 'vue';
 export default {
   props: {
     errorType: {
-      type: String as () => 'error' | 'success' | 'warning' | 'info' | undefined,
+      type: String as () =>
+        | 'error'
+        | 'success'
+        | 'warning'
+        | 'info'
+        | undefined,
       required: true,
-      default: 'error'
+      default: 'error',
     },
     cssClass: {
-      type: String
-    }
+      type: String,
+    },
   },
   setup(props) {
     const showError = ref(false);
@@ -33,8 +43,8 @@ export default {
       showError: computed(() => showError.value),
       props,
       setError,
-      clearError
+      clearError,
     };
-  }
+  },
 };
 </script>
