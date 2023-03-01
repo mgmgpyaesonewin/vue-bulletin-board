@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto px-6 py-8" max-width="400">
     <v-card-title class="text-center">
-      <h3 class="headline">Login</h3>
+      <h3 class="text-h5">Login</h3>
     </v-card-title>
     <v-form v-model="form" @submit.prevent="onSubmit">
       <v-text-field
@@ -21,7 +21,7 @@
         label="Password"
         placeholder="Enter your password"
       ></v-text-field>
-      <error-message cssClass="mb-2" errorType="error" v-show="hasError">
+      <error-message css-class="mb-2" errorType="error" v-show="hasError">
         {{ errorMessage }}
       </error-message>
 

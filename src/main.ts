@@ -1,35 +1,25 @@
+/**
+ * Vue3 Main script
+ */
+
+// Load vue core
 import { createApp } from 'vue';
-import { createPinia } from 'pinia';
-
-// Vuetify
-import 'vuetify/styles';
-import '@fortawesome/fontawesome-free/css/all.css';
-import { createVuetify } from 'vuetify';
-import { aliases, fa } from 'vuetify/iconsets/fa';
-import * as components from 'vuetify/components';
-import * as directives from 'vuetify/directives';
-
-const vuetify = createVuetify({
-  components,
-  directives,
-  icons: {
-    defaultSet: 'fa',
-    aliases,
-    sets: {
-      fa
-    }
-  }
-});
-
-import App from './App.vue';
 import router from './router';
+import store from './store';
 
-import './assets/main.css';
+// Load Vuetify
+import vuetify from './plugins/vuetify';
 
-const app = createApp(App);
+// Load Layout vue.
+import App from './App.vue';
 
-app.use(createPinia());
-app.use(router);
-app.use(vuetify);
+/** Register Vue */
+const vue = createApp(App);
+vue.use(router);
+vue.use(store);
+vue.use(vuetify);
 
-app.mount('#app');
+// Run!
+router.isReady().then(() => {
+  vue.mount('#app');
+});
